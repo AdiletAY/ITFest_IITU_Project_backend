@@ -48,9 +48,9 @@ class Document(models.Model):
 
     def __str__(self) -> str:
         if self.application:
-            return str(f"File: {self.id} - {self.application.applicant}")
+            return str(f"Document: {self.id} - {self.application.applicant}")
 
-        return f"File: {self.id} / status: {self.status}"
+        return f"Document: {self.id} / status: {self.status}"
 
     def save(self, *args, **kwargs) -> None:
         if self.status == DocumentStatus.NEED_CORRECTION:

@@ -15,6 +15,7 @@ from apps.authentication.services import (
 class UserLoginAPI(APIView):
     @extend_schema(request=UserLoginSerializer, responses=UserSerializer)
     def post(self, request, format=True):
+        print('here')
         username = request.data.get("username")
         password = request.data.get("password")
         user = authenticate(username=username, password=password)

@@ -5,7 +5,7 @@ from apps.documents import views
 urlpatterns = [
     path(
         "update-status/<int:pk>/",
-        views.FileStatusUpdateAPIView.as_view(),
+        views.DocumentStatusUpdateAPIView.as_view(),
         name="file_status_update",
     ),
     path(

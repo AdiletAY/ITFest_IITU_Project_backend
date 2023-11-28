@@ -6,7 +6,7 @@ from apps.documents.models.document_type import DocumentType
 class UploadedDocumentUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Document
-        fields = ("uploaded_file",)
+        fields = ("uploaded_document",)
 
 
 class DocumentStatusUpdateSerializer(serializers.ModelSerializer):

@@ -1,6 +1,7 @@
 from django.urls import path
 
 from apps.applications.views import application as app_views
+from apps.applications.views import category as category_views
 
 urlpatterns = [
     path("", app_views.ApplicationListAPIView.as_view(), name="application_list"),
@@ -28,5 +29,15 @@ urlpatterns = [
         "my/",
         app_views.UserApplicationListAPIView.as_view(),
         name="user_application_list",
+    ),
+    path(
+        "categories/",
+        category_views.ApplicationCategoryListAPIView.as_view(),
+        name="application_category_list",
+    ),
+    path(
+        "categories/<int:pk>/document-types/",
+        category_views.ApplicationCategoryDocumentTypeListAPIView.as_view(),
+        name="application_category_document_type_list",
     )
 ]
