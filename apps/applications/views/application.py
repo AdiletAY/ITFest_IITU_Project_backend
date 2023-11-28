@@ -11,7 +11,6 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from apps.documents.models.document import Document
-from apps.utils.exceptions import NotAllowed
 from apps.utils.permissions import IsApplicantOrAdmin
 
 from apps.utils.services import send_email
@@ -64,17 +63,17 @@ class ApplicationCreateAPIView(APIView):
                 },
             )
 
-        files = request.FILES
+        documents = request.FILES
 
         document_types = ApplicationCategoryDocumentType.objects.filter(
             application_category=category,
             is_necessary=True,
         )
 
-        uploaded_files_ids = files.keys()
+        uploaded_documents_ids = documents.keys()
         document_types_in_db = ApplicationCategoryDocumentType.objects.filter(
             application_category=category,
-            document_type__id__in=uploaded_files_ids,
+            document_type__id__in=uploaded_documents_ids,
             is_necessary=True,
         )
 
@@ -86,22 +85,16 @@ class ApplicationCreateAPIView(APIView):
                 },
             )
 
-        return self.create_application(applicant, category, files)
+        return self.create_application(applicant, category, documents)
 
-    def create_application(self, applicant, category, files):
-        is_allowed_to_apply = self.request.user.is_allowed_to_apply()
+    def create_application(self, applicant, category, documents):
 
-        if is_allowed_to_apply:
-            application = Application.objects.create(
-                applicant=applicant,
-                category=category,
-                course_number=applicant.course_number,
-                gpa=applicant.gpa,
-            )
-            Document.create_files(files=files, application=application)
-            return Response(status=status.HTTP_201_CREATED)
-
-        raise NotAllowed
+        application = Application.objects.create(
+            applicant=applicant,
+            category=category,
+        )
+        Document.create_files(documents=documents, application=application)
+        return Response(status=status.HTTP_201_CREATED)
 
 
 class ApplicationDetailAPIView(generics.RetrieveAPIView):

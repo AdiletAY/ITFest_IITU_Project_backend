@@ -38,11 +38,11 @@ class Document(models.Model):
         ordering = ("id",)
 
     @classmethod
-    def create_files(cls, files, application):
-        for id_, file in files.items():
+    def create_files(cls, documents, application):
+        for id_, document in documents.items():
             Document.objects.create(
                 application=application,
-                uploaded_file=file,
+                uploaded_document=document,
                 document_type=DocumentType.objects.get(id=id_),
             )
 
